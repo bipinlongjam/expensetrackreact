@@ -72,7 +72,7 @@ const SignIn = () => {
         Sign In
       </button>
     </form>
-    <p>Don't have an account? <Link to="/login">Sign Up</Link></p> {/* Link to the sign-up page */}
+    <p>Don't have an account? <Link to="/signup">Sign Up</Link></p> {/* Link to the sign-up page */}
   </div>
   )
 }
