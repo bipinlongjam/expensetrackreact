@@ -12,6 +12,10 @@
     display: flex;
     justify-content: flex-end;
 }
+.headbtn{
+    margin: 0 auto;
+    margin-left:10px;
+}
 .logbtn{
     margin-top:15px;
     margin-left: 5px;

@@ -11,6 +11,10 @@ const Home = () => {
     const [showForm, setShowForm] = useState(false);
     const fullnameRef = useRef();
     const profileurlRef = useRef();
+    const [formData, setFormData] = useState({
+        fullname: '',
+        profilePhotoUrl: ''
+    });
     const navigate =  useNavigate();
 
     const handleCompleteNow=()=>{
@@ -25,14 +29,44 @@ const Home = () => {
     const handleLogout = () => {
         logout();
     };
+   
+
+    //Fetch data from firebase
+
+    const fetchUserProfileData = async (idToken) => {
+        try {
+            const response = await fetch(`https://expensereact-c2044-default-rtdb.firebaseio.com/expense.json?auth=${idToken}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile data');
+            }
+            const data = await response.json();
+            const firstKey = Object.keys(data)[0];
+            const userData = data[firstKey];
+            return userData;
+        } catch (error) {
+            console.error('Error fetching profile data:', error.message);
+            throw error; // Re-throw the error for the caller to handle
+        }
+    };
+
     useEffect(() => {
         if (!token) {
             // If the user is logged out, redirect to the login page
             navigate('/login')
+        }else{
+            fetchUserProfileData(token)
+            .then((data) =>{
+                if(data){
+                    setFormData(data)
+                }
+            })
+            .catch((error) =>{
+                console.error('Error fetching profile data', error)
+            })
         }
     }, [token, navigate]);
 
-    
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         const formData = {
@@ -68,9 +102,14 @@ const Home = () => {
         </h2>
     </div>
     <div className={classes.profile}> 
-    <p>Your Profile is Incomplete
-    <span><button onClick={handleCompleteNow}>Complete now</button></span></p>
+    {formData.fullname && formData.profilePhotoUrl ?
+    (<p>Your Profile is Incomplete</p>) : (
+        <p>Your Profile is Incomplete</p>
+    )}
+    <div className={classes.headbtn}>
+    <span><button onClick={handleCompleteNow}>Complete now</button></span>
     <span><button className={classes.logbtn} onClick={handleLogout}>Logout</button></span>
+    </div>
     </div>
     </div>
     <hr></hr>
@@ -81,15 +120,14 @@ const Home = () => {
             <form className={`${classes.form}`} onSubmit={handleSubmit}>
             <div className={classes.details}>
                 <label>Fullname:</label>
-                <input type="text" ref={fullnameRef} />
+                <input type="text" ref={fullnameRef} defaultValue={formData.fullname} />
                 <label>Profile Photo URL:</label>
-                <input type="text" ref={profileurlRef} />
+                <input type="text" ref={profileurlRef} defaultValue={formData.profilePhotoUrl}/>
             </div>
             <div className={classes.btn}>   
             <button type="button" onClick={handleCancel}>Cancel</button>
             <button type="submit">Update</button>
             </div>
-           
         </form>
         </div>
         )
