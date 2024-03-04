@@ -1,0 +1,46 @@
+.container{
+    background: rgb(132, 132, 167);
+    height: 100vh;
+    width: 100vw;
+    margin: 0 auto;
+}
+.header {
+    display: flex;
+    justify-content: space-around;
+}
+.profile{
+    display: flex;
+    justify-content: flex-end;
+}
+.logbtn{
+    margin-top:15px;
+    margin-left: 5px;
+}
+.form {
+    display: flex;
+    justify-content: space-between;
+    width: 60%; /* Set the width to 40% of the screen */
+    margin: 0 auto; /* Center the form horizontally */
+    float: right; /* Float the form to the right */
+    margin-top: 5px;
+}
+.form button {
+    padding: 5px 8px; /* Adjust padding to make the button smaller */
+    width: 100px; /* Adjust font size to make the button text smaller */
+    height: 30px;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin: 10px;
+}
+

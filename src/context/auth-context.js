@@ -1,4 +1,6 @@
+import { click } from "@testing-library/user-event/dist/click";
 import React, { createContext, useContext, useState } from "react";
+
 
 const UserContext = createContext({
     token: '',
@@ -13,18 +15,27 @@ export const ExpenseProvider = ({ children }) => {
     const initialToken = localStorage.getItem('token');
     const [token, setToken] = useState(initialToken);
 
+
+
+    const userIsLoggedIn = !!token; // Convert token to boolean
     // Login handler
     const loginHandler = (token) => {
         setToken(token);
         localStorage.setItem('token', token);
     };
 
-    const userIsLoggedIn = !!token; // Convert token to boolean
+    //Logout handler
+   const logoutHandler =()=>{
+    setToken(null)
+    localStorage.removeItem('token')
+    console.log("click logout")
+    }
 
     const value = {
         token: token,
         login: loginHandler,
-        userIsLoggedIn: userIsLoggedIn // Corrected usage
+        userIsLoggedIn: userIsLoggedIn, // Corrected usage
+        logout :logoutHandler
     };
 
     return (
