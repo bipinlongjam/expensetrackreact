@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import classes from './SignUp.module.css'
 import { useExpense } from '../../context/auth-context';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
     const emailRef = useRef();
@@ -72,6 +73,7 @@ const Signup = () => {
           Sign Up
         </button>
       </form>
+      <p>Already have an account? <Link to="/signin">Sign In</Link></p> {/* Link to the sign-in page */}
     </div>
   )
 }

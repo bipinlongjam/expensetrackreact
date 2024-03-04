@@ -1,36 +1,37 @@
-import React,{createContext, useContext, useState} from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const UserContext = createContext({
-    token:'',
+    token: '',
     isLoggedIn: false,
-    signUp: () =>{},
-    login: (token) =>{},
-    logout:()=>{}
-})
+    login: (token) => { },
+    logout: () => { }
+});
 
 export const useExpense = () => useContext(UserContext);
 
-export const ExpenseProvider =({children}) =>{
-    
-    const[token, setToken] = useState('')
+export const ExpenseProvider = ({ children }) => {
+    const initialToken = localStorage.getItem('token');
+    const [token, setToken] = useState(initialToken);
 
-    //Login handler
-    // const loginHandler = (token) =>{
-    // setToken(token)
-    // localStorage.setItem('token', token);
+    // Login handler
+    const loginHandler = (token) => {
+        setToken(token);
+        localStorage.setItem('token', token);
+    };
 
-    const signUphandler = ()=>{
-
-    }
+    const userIsLoggedIn = !!token; // Convert token to boolean
 
     const value = {
-        token:token,
-        signUp:signUphandler
-    }
-    return(
-        <ExpenseProvider.Provider value={value}>
-            {children}
-        </ExpenseProvider.Provider>
-    )
-}
+        token: token,
+        login: loginHandler,
+        userIsLoggedIn: userIsLoggedIn // Corrected usage
+    };
 
+    return (
+        <UserContext.Provider value={value}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export default ExpenseProvider;
