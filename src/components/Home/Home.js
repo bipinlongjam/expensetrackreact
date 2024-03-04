@@ -143,15 +143,16 @@ const Home = () => {
         </h2>
     </div>
     <div className={classes.profile}> 
-    {formData.fullname && formData.profilePhotoUrl ?
+    <p>Your profile is Incomplete</p>
+    {/* {formData.fullname && formData.profilePhotoUrl ?
     (<p>Your Profile is Incomplete</p>) : (
         <p>Your Profile is Incomplete</p>
-    )}
+    )} */}
+    <span><button onClick={handleCompleteNow} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Complete now</button></span>
     <div className={classes.headbtn}>
-    <span><button onClick={handleCompleteNow}>Complete now</button></span>
-    <span><button onClick={verifyEmail}>{!isVerified ? 'Verify Email' : 'Verified' }</button></span>
-    <span><button className={classes.logbtn} onClick={handleLogout}>Logout</button></span>
+    <span><button onClick={verifyEmail} style={{ fontSize: '14px', padding: '5px 10px' }}>{!isVerified ? 'Verify Email' : 'Verified' }</button></span>
     </div>
+    <span><button className={classes.logbtn} onClick={handleLogout} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Logout</button></span>
     </div>
     </div>
     <hr></hr>

@@ -11,10 +11,19 @@
 .profile{
     display: flex;
     justify-content: flex-end;
+    margin-left: 70px;
+}
+.profile p{
+    margin-top: 30px;
+    padding-right: 20px;
 }
 .headbtn{
-    margin: 0 auto;
-    margin-left:10px;
+    margin: 0 20px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    
 }
 .logbtn{
     margin-top:15px;

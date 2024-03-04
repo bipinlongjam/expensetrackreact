@@ -27,10 +27,11 @@ export const ExpenseProvider = ({ children }) => {
     };
 
     //Logout handler
-   const logoutHandler =()=>{
-    setToken(null)
+    const logoutHandler =()=>{
     localStorage.removeItem('token')
+    setToken(null)
     console.log("click logout")
+    console.log(token)
     }
 
     const value = {
