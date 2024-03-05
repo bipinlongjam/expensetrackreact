@@ -1,0 +1,22 @@
+.container{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    
+    
+}
+.container p{
+    font-style: italic;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+
+}
+.action{
+    margin-top: 10px;
+    margin-left: 35%;
+    width: 90px;
+    height: 30px;
+}

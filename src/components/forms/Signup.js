@@ -8,7 +8,7 @@ const Signup = () => {
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
     const navigate = useNavigate();
-    
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
      
@@ -75,7 +75,7 @@ const Signup = () => {
           Sign Up
         </button>
       </form>
-      <p>Already have an account? <Link to="/signin">Sign In</Link></p> {/* Link to the sign-in page */}
+      <p>Already have an account? <Link to="/login">Sign In</Link></p> {/* Link to the sign-in page */}
     </div>
   )
 }
