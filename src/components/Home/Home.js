@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import classes from './Home.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useExpense } from '../../context/auth-context'
+import Expense from '../Expense/Expense';
 
 
 
@@ -21,7 +22,7 @@ const Home = () => {
     const navigate =  useNavigate();
 
     const handleCompleteNow=()=>{
-        setShowForm(true)
+        setShowForm(!showForm)
     }
     
     //Cancel update
@@ -43,7 +44,7 @@ const Home = () => {
                 throw new Error('Failed to fetch profile data');
             }
             const data = await response.json();
-            const firstKey = Object.keys(data)[0];
+            const firstKey = Object.keys(data).pop();
             const userData = data[firstKey];
             return userData;
         } catch (error) {
@@ -144,10 +145,6 @@ const Home = () => {
     </div>
     <div className={classes.profile}> 
     <p>Your profile is Incomplete</p>
-    {/* {formData.fullname && formData.profilePhotoUrl ?
-    (<p>Your Profile is Incomplete</p>) : (
-        <p>Your Profile is Incomplete</p>
-    )} */}
     <span><button onClick={handleCompleteNow} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Complete now</button></span>
     <div className={classes.headbtn}>
     <span><button onClick={verifyEmail} style={{ fontSize: '14px', padding: '5px 10px' }}>{!isVerified ? 'Verify Email' : 'Verified' }</button></span>
@@ -155,8 +152,14 @@ const Home = () => {
     <span><button className={classes.logbtn} onClick={handleLogout} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Logout</button></span>
     </div>
     </div>
-    <hr></hr>
-      {
+    <hr />
+   
+    <div className={classes.containerDetails}>
+        <div  className={classes['left-half']}>
+        <Expense />
+        </div>
+        <div className={classes['right-half']}>
+        {
         showForm && (
             <div>
                 <h2>Contact Details:</h2>
@@ -168,7 +171,6 @@ const Home = () => {
                 <input type="text" ref={profileurlRef} defaultValue={formData.profilePhotoUrl} onChange={handleInputChange}/>
             </div>
             <div className={classes.btn}>   
-                
             <button type="button" onClick={handleCancel}>Cancel</button>
             <button type="submit">Update</button>
             </div>
@@ -176,7 +178,11 @@ const Home = () => {
         </div>
         )
       }
+        </div>
     </div>
+     
+    </div>
+   
   )
 }
 

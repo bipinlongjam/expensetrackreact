@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10%;
+    height: 100vh; /* Full height of the viewport */
+}
+.container h2{
+    
+}
+.container form{
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+}
+.formContainer{
+    width: 300px;
+    padding-left: 30px;
+
+}
+.action{
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+    margin-left: 30%;
+    display: flex;
+    
+}
+

@@ -29,6 +29,21 @@
     margin-top:15px;
     margin-left: 5px;
 }
+.containerDetails {
+    clear: both;
+}
+
+.left-half {
+    float: left; /* Float div to the left */
+    width: 50%;
+}
+
+.right-half {
+    float: right; /* Float div to the right */
+    width: 50%;  /* Add some space between the left and right halves */
+
+}
+
 .form {
     display: flex;
     justify-content: space-between;
@@ -36,6 +51,10 @@
     margin: 0 auto; /* Center the form horizontally */
     float: right; /* Float the form to the right */
     margin-top: 5px;
+}
+.form input{
+    height: 20px;
+    margin-right: 20px;
 }
 .form button {
     padding: 5px 8px; /* Adjust padding to make the button smaller */
