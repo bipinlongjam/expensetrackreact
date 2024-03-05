@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100vh;
 }
 
@@ -8,6 +8,3 @@
     flex: 1;
 }
 
-.expense {
-    margin-left: 20px; /* Adjust the spacing between the form and the list */
-}

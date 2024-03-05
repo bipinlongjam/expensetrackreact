@@ -1,13 +1,30 @@
 import React, { useRef } from 'react'
 import classes from './ExpenseForm.module.css'
 
-const ExpenseForm = ({addExpense}) => {
+const ExpenseForm = () => {
 
     const moneySpentRef = useRef();
     const descriptionRef = useRef();
     const categoryRef = useRef();
 
-    const handleSubmit =(e)=>{
+    const addHandler = async (expenseData) =>{
+        try{
+            const response = await fetch('https://expensereact-c2044-default-rtdb.firebaseio.com/expensedata.json',{
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(expenseData)
+            })
+            const data = await response.json();
+            console.log('successfully added data', data);
+        } catch(error){
+            console.error("eror adding data", error);
+        }
+    }
+
+
+    const handleSubmit = async (e)=>{
         e.preventDefault();
         const moneySpent = moneySpentRef.current.value;
         const description = descriptionRef.current.value;
@@ -16,11 +33,13 @@ const ExpenseForm = ({addExpense}) => {
             // Do some error handling (e.g., display an error message)
             return;
         }
-        addExpense({
+        const expenseData = {
             moneySpent,
             description,
             category
-        });
+        }
+        await addHandler(expenseData);
+
         // Clear the form fields after submitting
         moneySpentRef.current.value = '';
         descriptionRef.current.value = '';
@@ -30,8 +49,6 @@ const ExpenseForm = ({addExpense}) => {
   return (
     <div className={classes.container}>
         <h2>Add Daily Expense:</h2>
-        <div>
-        </div>
         <form onSubmit={handleSubmit} className={classes.formContainer}>
             <div>
                 <h4>Money Spent</h4>

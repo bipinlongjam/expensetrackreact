@@ -1,6 +1,5 @@
 .container{
-    background: rgb(132, 132, 167);
-    height: 100vh;
+    background: rgb(130, 130, 180);
     width: 100vw;
     margin: 0 auto;
 }
@@ -41,20 +40,23 @@
 .right-half {
     float: right; /* Float div to the right */
     width: 50%;  /* Add some space between the left and right halves */
-
 }
 
 .form {
     display: flex;
-    justify-content: space-between;
-    width: 60%; /* Set the width to 40% of the screen */
-    margin: 0 auto; /* Center the form horizontally */
-    float: right; /* Float the form to the right */
+    justify-content: space-around;
+    width: 50%; /* Set the width to 40% of the screen */
+    margin: 0 auto; /* Center the form horizontally */ 
     margin-top: 5px;
+}
+.formHeading{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 70px;
 }
 .form input{
     height: 20px;
-    margin-right: 20px;
+    
 }
 .form button {
     padding: 5px 8px; /* Adjust padding to make the button smaller */

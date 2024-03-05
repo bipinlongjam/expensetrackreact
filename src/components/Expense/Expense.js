@@ -1,17 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ExpenseForm from './ExpenseForm'
 import classes from './Expense.module.css'
 
 const Expense = () => {
     const [expenses, setExpenses] = useState([]);
 
-    const addExpense =(expense) =>{
-        setExpenses([...expenses, expense])
+    useEffect(() =>{
+        fetchExpense();
+    },[])
+    const fetchExpense = async () =>{
+        try{
+            const response = await fetch('https://expensereact-c2044-default-rtdb.firebaseio.com/expensedata.json',{
+                method:'GET',
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            if(!response.ok){
+                throw new Error('Failed to fetch data')
+            }
+            const data = await response.json();
+            if(data){
+                const fetchedExpenses = Object.values(data);
+                setExpenses(fetchedExpenses)
+            }
+        } catch(error){
+            console.error('Error fetching expense', error)
+        }
     }
-    console.log('expenses',expenses)
+
   return (
     <div className={classes.container}>
-        <ExpenseForm addExpense={addExpense}/>
+        <ExpenseForm />
         <hr></hr>
         <div className={classes.expense}>
                 <h2>Expenses:</h2>

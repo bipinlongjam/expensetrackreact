@@ -162,8 +162,8 @@ const Home = () => {
         {
         showForm && (
             <div>
-                <h2>Contact Details:</h2>
-            <form className={`${classes.form}`} onSubmit={handleSubmit}>
+            <h2 className={classes.formHeading}>Contact Details:</h2>
+            <form className={classes.form} onSubmit={handleSubmit}>
             <div className={classes.details}>
                 <label>Fullname:</label>
                 <input type="text" ref={fullnameRef} defaultValue={formData.fullname} onChange={handleInputChange}/>

@@ -15,8 +15,7 @@
 }
 .formContainer{
     width: 300px;
-    padding-left: 30px;
-
+    padding:0 auto;
 }
 .action{
     width: 100px;
