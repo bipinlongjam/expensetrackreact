@@ -7,9 +7,11 @@ const ExpenseForm = () => {
     const descriptionRef = useRef();
     const categoryRef = useRef();
 
+    //const generateUniqueId = () => Math.random().toString(36).substring(2, 8) + Date.now();
+
     const addHandler = async (expenseData) =>{
         try{
-            const response = await fetch('https://expensereact-c2044-default-rtdb.firebaseio.com/expensedata.json',{
+            const response = await fetch(`https://expensereact-c2044-default-rtdb.firebaseio.com/expensedata.json`,{
                 method: 'POST',
                 headers:{
                     'Content-Type':'application/json'
@@ -37,7 +39,8 @@ const ExpenseForm = () => {
             moneySpent,
             description,
             category
-        }
+        }   
+       // const id = generateUniqueId();
         await addHandler(expenseData);
 
         // Clear the form fields after submitting
