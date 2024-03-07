@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ExpenseForm from './ExpenseForm'
+import { fetchExpense  } from '../../store/expensestore'
 import classes from './Expense.module.css'
-import { json } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+
 
 const Expense = () => {
     const [expenses, setExpenses] = useState([]);
@@ -11,6 +13,8 @@ const Expense = () => {
     const [dataFetched, setDataFetched] = useState(false);
     
 
+    const expense = useSelector((state)=> state.expense.expense)
+    console.log("expenssss", expense)
     useEffect(() => {
         fetchExpense();
     },[]); 

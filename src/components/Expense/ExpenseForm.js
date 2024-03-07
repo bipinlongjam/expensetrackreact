@@ -1,12 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState} from 'react'
 import classes from './ExpenseForm.module.css'
+import { useSelector } from 'react-redux';
 
 const ExpenseForm = () => {
-
+    const [showPremiumButton, setShowPremiumButton] = useState(false);
     const moneySpentRef = useRef();
     const descriptionRef = useRef();
     const categoryRef = useRef();
 
+    const expenses = useSelector((state) => state.expense.data);
     //const generateUniqueId = () => Math.random().toString(36).substring(2, 8) + Date.now();
 
     const addHandler = async (expenseData) =>{
@@ -35,6 +37,12 @@ const ExpenseForm = () => {
             // Do some error handling (e.g., display an error message)
             return;
         }
+        const totalExpenses = calculateTotalExpenses();
+        if (totalExpenses > 10000) {
+            setShowPremiumButton(true);
+        } else {
+            setShowPremiumButton(false);
+        }
         const expenseData = {
             moneySpent,
             description,
@@ -48,6 +56,14 @@ const ExpenseForm = () => {
         descriptionRef.current.value = '';
         categoryRef.current.value = '';
        
+    }
+    const calculateTotalExpenses = () => {
+        // Your logic to calculate total expenses
+        // let totalExpenses = 0;
+        // expenses.forEach(expense => {
+        //     totalExpenses += parseFloat(expense.moneySpent); // Assuming moneySpent is a string, parse it to a float
+        // });
+        // return totalExpenses;
     }
   return (
     <div className={classes.container}>
@@ -72,6 +88,7 @@ const ExpenseForm = () => {
                     </select>
             </div>
                 <button type="submit" className={classes.action}>Add Expense</button>
+                {showPremiumButton && <button className={classes.premiumButton}>Activate Premium</button>}
         </form>
     </div>
   )

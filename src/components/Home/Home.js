@@ -3,13 +3,17 @@ import { v4 as uuidv4 } from 'uuid';
 import classes from './Home.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useExpense } from '../../context/auth-context'
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutStart, logoutSuccess, logoutFailure } from '../../store/logoutAuth'
 import Expense from '../Expense/Expense';
 
 
 
 const Home = () => {
    
-    const{logout, token, user} = useExpense()
+    const dispatch = useDispatch();
+    const {token} = useSelector(state => state.auth)
+   // const{logout, token, user} = useExpense()
     const [showForm, setShowForm] = useState(false);
     const fullnameRef = useRef();
     const profileurlRef = useRef();
@@ -31,9 +35,15 @@ const Home = () => {
     };
 
     const handleLogout = () => {
-        logout();
-    };
-   
+        dispatch(logoutStart()); // Dispatch logout start action
+        // You can also navigate to the login page here if needed
+        // navigate('/login');
+        setTimeout(() => {
+          // Simulating async logout process
+          dispatch(logoutSuccess()); // Dispatch logout success action
+          navigate('/login');
+        }, 1000);
+      };
 
     //Fetch data from firebase
 
@@ -44,32 +54,34 @@ const Home = () => {
                 throw new Error('Failed to fetch profile data');
             }
             const data = await response.json();
+            console.log('Fetched user data:', data);
             const firstKey = Object.keys(data).pop();
+            console.log('First key:', firstKey);
             const userData = data[firstKey];
+            console.log('User data:', userData);
+            console.log('token id',idToken)
             return userData;
         } catch (error) {
             console.error('Error fetching profile data:', error.message);
-            throw error; // Re-throw the error for the caller to handle
+            throw error;
         }
     };
 
     useEffect(() => {
         if (!token) {
-            // If the user is logged out, redirect to the login page
-            navigate('/login')
-        }else{
+            console.log('User token not found, redirecting to login page');
+        } else {
             fetchUserProfileData(token)
-            .then((data) =>{
-                if(data){
-                    setFormData(data)
-                }
-            })
-            .catch((error) =>{
-                console.error('Error fetching profile data', error)
-            })
+                .then((data) => {
+                    if (data) {
+                        setFormData(data);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching profile data:', error);
+                });
         }
     }, [token, navigate]);
-
     const verifyEmail = async () => {
         try {
             const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCyP3jp2UTlE8HGgaFlvPHeEd4WQkzcQuE`, {

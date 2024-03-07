@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import classes from './SignUp.module.css'
-import { useExpense } from '../../context/auth-context';
+//import { useExpense } from '../../context/auth-context';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
