@@ -23,7 +23,12 @@ const Home = () => {
     });
     const [isFormEdited, setIsFormEdited] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
     const navigate =  useNavigate();
+
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
 
     const handleCompleteNow=()=>{
         setShowForm(!showForm)
@@ -148,10 +153,11 @@ const Home = () => {
         setIsFormEdited(true); // Set form as edited when any input field changes
     };
   return (
-<div className={classes.container}>
+    <div>
+<div className={`${classes.container} ${darkMode ? classes.darkMode : ''}`}>
     <div className={classes.header}>
     <div >
-        <h2>
+        <h2 className={classes.heading}>
          Welcome to Expense Tracker
         </h2>
     </div>
@@ -163,8 +169,12 @@ const Home = () => {
     </div>
     <span><button className={classes.logbtn} onClick={handleLogout} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Logout</button></span>
     </div>
+    <div>
+    <span><button onClick={toggleDarkMode} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>
+    {darkMode ? 'Light Mode' : 'Dark Mode'}
+     </button></span>
     </div>
-    <hr />
+    </div>
    
     <div className={classes.containerDetails}>
         <div  className={classes['left-half']}>
@@ -192,9 +202,9 @@ const Home = () => {
       }
         </div>
     </div>
-     
+    
     </div>
-   
+    </div>
   )
 }
 

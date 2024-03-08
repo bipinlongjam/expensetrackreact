@@ -1,96 +1,105 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-// Action creator function for fetching expense data
-export const fetchExpense = createAsyncThunk(
-    'expense/fetchExpense',
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`https://expensereact-c2044-default-rtdb.firebaseio.com/expensedata.json`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+  // expenseReducer.js
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
+// expenseStore.js
 
-            const data = await response.json();
-            // Return the fetched data
-            return data;
-        } catch (error) {
-            // Reject with error message
-            return rejectWithValue(error.message);
-        }
-    }
-);
-// export const fetchExpense = () => async (dispatch) => {
-//     dispatch(fetchExpenseStart());
-//     try {
-//       const response = await fetch('https://expensereact-c2044-default-rtdb.firebaseio.com/expensedata.json');
-//       if (!response.ok) {
-//         throw new Error('Failed to fetch expenses');
-//       }
-//       const data = await response.json();
-//       console.log("dataaaa", data)
-//       dispatch(fetchExpenseSuccess(data));
-//     } catch (error) {
-//       dispatch(fetchExpenseFailure(error.message));
-//     }
-//   };
-// Define initial state
+// expenseReducer.js
+
+const ADD_EXPENSE = 'ADD_EXPENSE';
+const EDIT_EXPENSE = 'EDIT_EXPENSE';
+const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
 // const initialState = {
-//     loading: false,
-//     error: null,
-//     expense: []
+//   expenses: []
 // };
+const initialState = {
+  expenses: JSON.parse(localStorage.getItem('expenses')) || [], // Initialize expenses from localStorage or as an empty array
+};
 
-// // Create a slice for expense data
-// const expenseSlice = createSlice({
-//     name: 'expense',
-//     initialState,
-//     reducers: {},
-//     extraReducers: (builder) => {
-//         builder
-//             .addCase(fetchExpense.pending, (state) => {
-//                 state.loading = true;
-//                 state.error = null;
-//             })
-//             .addCase(fetchExpense.fulfilled, (state, action) => {
-//                 state.loading = false;
-//                 state.expense = Object.entries(action.payload).map(([id, expense]) => ({ id, ...expense }));
-//             })
-//             .addCase(fetchExpense.rejected, (state, action) => {
-//                 state.loading = false;
-//                 state.error = action.payload;
-//             });
-//     }
-// });
-export const expenseSlice = createSlice({
-    name: 'expense',
-    initialState: {
-      expense: [],
-      loading: false,
-      error: null,
-    },
-    reducers: {
-      fetchExpenseStart: (state) => {
-        state.loading = true;
-        state.error = null;
-      },
-      fetchExpenseSuccess: (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-      },
-      fetchExpenseFailure: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      },
-    },
-  });
-  
-  export const { fetchExpenseStart, fetchExpenseSuccess, fetchExpenseFailure } = expenseSlice.actions;
-  
-// Export the reducer
-export default expenseSlice.reducer;
+const expenseReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_EXPENSE':
+      const newExpenses = [...state.expenses, action.payload];
+      localStorage.setItem('expenses', JSON.stringify(newExpenses)); 
+
+      return {
+        ...state,
+        expenses: newExpenses
+      };
+      case 'EDIT_EXPENSE':
+        const editedExpenses = state.expenses.map((expense, index) =>{
+          if(index === action.payload.index){
+            return action.payload.expense;
+          }
+        })
+        localStorage.setItem('expenses', JSON.stringify(editedExpenses));
+        return{
+          ...state,
+          expenses: editedExpenses,
+        }
+      case 'DELETE_EXPENSE':
+        const deleteExpenses = state.expenses.filter((expense, index) => index !== action.payload);
+        localStorage.setItem('expense', JSON.stringify(deleteExpenses));
+        return {
+          ...state,
+          expenses: deleteExpenses,
+        }
+    default:
+      return state;
+  }
+};
+
+
+export const addExpense = (expense) => {
+  return {
+    type: ADD_EXPENSE,
+    payload: expense
+  };
+};
+export const editExpense = (index, expense) => {
+  return {
+    type: EDIT_EXPENSE,
+    payload: { index, expense },
+  };
+};
+
+export const deleteExpense = (index) => {
+  return {
+    type: DELETE_EXPENSE,
+    payload: index,
+  };
+};
+export default expenseReducer;
+
+
+// Expenses Reducer
+
+// const expensesReducerDefaultState = [];
+
+// export default (state = expensesReducerDefaultState, action) => {
+//   switch (action.type) {
+//     case 'ADD_EXPENSE':
+//       return [
+//         ...state,
+//         action.expense
+//       ];
+//     case 'REMOVE_EXPENSE':
+//       return state.filter(({ id }) => id !== action.id);
+//     case 'EDIT_EXPENSE':
+//       return state.map((expense) => {
+//         if (expense.id === action.id) {
+//             return {
+//               ...expense,
+//               ...action.updates
+//             }
+//         } else {
+//             return expense;
+//         }
+//       });
+//       case 'SET_EXPENSE':
+//         return action.expenses;
+//     default:
+//       return state;
+      
+//   }
+// };

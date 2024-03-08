@@ -8,7 +8,7 @@ const ExpenseForm = () => {
     const descriptionRef = useRef();
     const categoryRef = useRef();
 
-    const expenses = useSelector((state) => state.expense.data);
+    //const expenses = useSelector((state) => state.expense.data);
     //const generateUniqueId = () => Math.random().toString(36).substring(2, 8) + Date.now();
 
     const addHandler = async (expenseData) =>{
@@ -33,24 +33,8 @@ const ExpenseForm = () => {
         const moneySpent = moneySpentRef.current.value;
         const description = descriptionRef.current.value;
         const category = categoryRef.current.value;
-        if (!moneySpent || !description || !category) {
-            // Do some error handling (e.g., display an error message)
-            return;
-        }
-        const totalExpenses = calculateTotalExpenses();
-        if (totalExpenses > 10000) {
-            setShowPremiumButton(true);
-        } else {
-            setShowPremiumButton(false);
-        }
-        const expenseData = {
-            moneySpent,
-            description,
-            category
-        }   
-       // const id = generateUniqueId();
-        await addHandler(expenseData);
-
+       
+       
         // Clear the form fields after submitting
         moneySpentRef.current.value = '';
         descriptionRef.current.value = '';

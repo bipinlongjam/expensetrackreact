@@ -2,6 +2,9 @@
     background: rgb(130, 130, 180);
     width: 100vw;
     margin: 0 auto;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 .header {
     display: flex;
@@ -78,3 +81,28 @@
     margin: 10px;
 }
 
+.darkMode {
+    background-color: #222; /* Dark background color */
+    color: #fff; /* Light text color */
+}
+.darkMode .profile {
+    /* Update profile styles for dark mode */
+    background-color: #333; /* Darker background color for profile */
+    color: #fff; /* Light text color */
+}
+.darkMode .containerDetails {
+    /* Update containerDetails styles for dark mode */
+    background-color: #5e5858; /* Darker background color for containerDetails */
+    color: #2c2222; /* Light text color */
+}
+.darkMode .header,
+.darkMode .profile,
+.darkMode .containerDetails {
+    color: #836b6b; /* Change text color to white */
+}
+.darkMode.heading{
+    color: rgb(233, 218, 218);
+}
+.darkMode.containerDetails{
+    background-color: #333;
+}

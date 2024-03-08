@@ -3,7 +3,7 @@ import classes from './SignIn.module.css'
 import { useExpense } from '../../context/auth-context';
 import { useNavigate, Link } from 'react-router-dom';
 import {loginUser} from '../../store/authsignIn'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const SignIn = () => {
    // const {login, token} = useExpense()
@@ -13,56 +13,19 @@ const SignIn = () => {
     const passwordRef = useRef();
     const navigate = useNavigate()
 
-    const handleSubmit = async (e) =>{
-        e.preventDefault();
-        const enteredEmail = emailRef.current.value;
-        const enteredPassword = passwordRef.current.value;
-
-        dispatch(loginUser({ email: enteredEmail, password: enteredPassword }))
-            .then((resultAction) => {
-                if (loginUser.fulfilled.match(resultAction)) {
-                    const token = resultAction.payload.idToken;
-                    console.log('User token:', token);
-                    navigate('/'); // Navigate to the home page after successful login
-                } else {
-                    console.error('Failed to log in:', resultAction.payload);
-                    // Handle login failure
-                }
-            });
+  const userId = useSelector(state => state.auth.userId);
+  console.log("user id",userId)
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    try{
+      await dispatch(loginUser({email, password}));
+      navigate('/')
+    }catch(error){
+      console.error('Login Failed', error.message);
     }
-    
-    
-
-//     const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const enteredEmail = emailRef.current.value;
-//     const enteredPassword = passwordRef.current.value;
-//     try {
-//       const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCyP3jp2UTlE8HGgaFlvPHeEd4WQkzcQuE`, {
-//         method: 'POST',
-//         body: JSON.stringify({
-//           email: enteredEmail,
-//           password: enteredPassword,
-//           returnSecureToken: true
-//         }),
-//         headers: {
-//           'Content-type': 'application/json'
-//         }
-//       });
-
-//       if (!response.ok) {
-//         throw new Error('Failed to sign in');
-//       }
-
-//       const data = await response.json();
-//       console.log('Successfully login', data)
-//       login(data.idToken);
-//       navigate('/')
-//     } catch (error) {
-//       console.error('Error signing in:', error.message);
-//     }
-//   };
- 
+  };
 
   return (
     <div className={classes.container}>

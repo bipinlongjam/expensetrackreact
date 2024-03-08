@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-
 export const loginUser = createAsyncThunk(
   'loginUser',
   async ({ email, password }, { rejectWithValue }) => {
@@ -23,42 +22,41 @@ export const loginUser = createAsyncThunk(
 
       const data = await response.json();
       console.log('Successfully logged in', data);
-      return data.idToken;
+
+      return { idToken: data.idToken, userId: data.localId };
     } catch (error) {
       console.error('Error signing in:', error.message);
       return rejectWithValue(error.message);
     }
   }
-)
-
+);
 
 const authSlice = createSlice({
-    name: 'user',
-    initialState:{
-        loading:false,
-        user:null,
-        token:'',
-        error:null
-    },
-    reducers:{},
-    extraReducers: (builder) => {
-      builder
+  name: 'auth',
+  initialState: {
+    loading: false,
+    user: null,
+    token: '',
+    userId: '',
+    error: null
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload;
+        state.token = action.payload.idToken;
+        state.userId = action.payload.userId;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
-      }
+      });
+  }
 });
-
-// Async action for login
-
 
 export default authSlice.reducer;
