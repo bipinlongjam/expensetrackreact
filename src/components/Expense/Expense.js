@@ -16,8 +16,11 @@ const [editIndex, setEditIndex] = useState(null);
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expense.expenses);
   
-  const totalExpense = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
-
+  //const totalExpense = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
+  const totalExpense = useSelector(state => {
+    const expenses = state.expense?.expenses; // Using optional chaining to handle undefined state.expense
+    return expenses ? expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0) : 0; // Returning 0 if expenses is undefined
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
     // Accessing form field values using refs
