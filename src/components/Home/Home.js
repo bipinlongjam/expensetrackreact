@@ -156,7 +156,7 @@ const Home = () => {
     <div>
 <div className={`${classes.container} ${darkMode ? classes.darkMode : ''}`}>
     <div className={classes.header}>
-    <div >
+        <div >
         <h2 className={classes.heading}>
          Welcome to Expense Tracker
         </h2>
@@ -176,12 +176,12 @@ const Home = () => {
     </div>
     </div>
    
-    <div className={classes.containerDetails}>
-        <div  className={classes['left-half']}>
         <Expense />
-        </div>
-        <div className={classes['right-half']}>
-        {
+    {/* <div className={classes.containerDetails}>
+        <div>
+        </div> */}
+        {/* <div className={classes['right-half']}> */}
+        {/* {
         showForm && (
             <div>
             <h2 className={classes.formHeading}>Contact Details:</h2>
@@ -200,10 +200,10 @@ const Home = () => {
         </div>
         )
       }
-        </div>
-    </div>
+        </div> */}
+     {/* </div> */}
     
-    </div>
+    </div> 
     </div>
   )
 }

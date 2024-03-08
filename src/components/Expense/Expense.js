@@ -9,10 +9,10 @@ import expenseReducer from '../../store/expensestore';
 
 
 const Expense = ({className}) => {
-    const [editIndex, setEditIndex] = useState(null);
-    const amountRef = useRef(null);
-    const descriptionRef = useRef(null);
-    const categoryRef = useRef(null);
+const [editIndex, setEditIndex] = useState(null);
+  const amountRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const categoryRef = useRef(null);
  
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expense.expenses);
@@ -21,34 +21,28 @@ const Expense = ({className}) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Accessing form field values using refs
-    const amount = amountRef.current ? amountRef.current.value : '';
-    const description = descriptionRef.current ? descriptionRef.current.value : '';
-    const category = categoryRef.current ? categoryRef.current.value : '';
+    const amount = amountRef.current.value;
+    const description = descriptionRef.current.value;
+    const category = categoryRef.current.value;
+     
     
     if (amount && description && category) {
-        if(editIndex !== null){
-            dispatch(editExpense(editIndex, {amount, description, category}))
-            setEditIndex(null)
-        }else{
-            dispatch(addExpense({ amount, description, category }));
-        }
-      if (amountRef.current) amountRef.current.value = '';
-      if (descriptionRef.current) descriptionRef.current.value = '';
-      if (categoryRef.current) categoryRef.current.value = '';
+        dispatch(addExpense({ amount, description, category }));
+        amountRef.current.value = '';
+        descriptionRef.current.value = '';
+        categoryRef.current.value = '';
       }
     
   };
  
   const handleEdit = (index) => {
-    setEditIndex(index);
-    const {amount, description, category} = expenses[index]
-    if (amountRef.current) amountRef.current.value = amount;
-    if (descriptionRef.current) descriptionRef.current.value = description;
-    if (categoryRef.current) categoryRef.current.value = category;
+    const amount = prompt('Enter new amount:');
+    const description = prompt('Enter new description:');
+    const category = prompt('Enter new category:');
 
-    // if (amount !== null && description !== null && category !== null) {
-    //   dispatch(editExpense(index, { amount, description, category }));
-    // }
+    if (amount !== null && description !== null && category !== null) {
+      dispatch(editExpense(index, { amount, description, category }));
+    }
   };
 
   const handleDelete = (index) => {
@@ -101,35 +95,16 @@ const Expense = ({className}) => {
       <ListGroup  className={`${classes.expenselist}`}>
         <h2>Expenses List</h2>
         {expenses.map((expense, index) => (
-          <ListGroup.Item key={index} className={classes.lightBorder}>
-            {editIndex === index ? (
-              <Form onSubmit={handleSubmit}>
-                <Form.Control type="number" defaultValue={expense.amount} ref={amountRef} />
-                <Form.Control type="text" defaultValue={expense.description} ref={descriptionRef} />
-                <Form.Control as="select" defaultValue={expense.category} ref={categoryRef}>
-                  <option value="Food">Food</option>
-                  <option value="Transportation">Transportation</option>
-                  <option value="Housing">Housing</option>
-                  <option value="Entertainment">Entertainment</option>
-                </Form.Control>
-                <div className={classes.buttonContainer}>
-                <Button variant="primary" type="submit">Save</Button>
-                <Button variant="secondary" onClick={() => setEditIndex(null)}>Cancel</Button>
+            <ListGroup.Item key={index} className={classes.lightBorder}>
+              <p><strong>Amount:</strong> {expense.amount}</p>
+              <strong>Description:</strong> {expense.description}
+              <strong>Category:</strong> {expense.category}
+              <div className={classes.buttonContainer}>
+                <Button variant="outline-primary" onClick={() => handleEdit(index)}>Edit</Button>{' '}
+                 <Button variant="outline-danger" onClick={() => handleDelete(index)}>Delete</Button>
                 </div>
-              </Form>
-            ) : (
-              <>
-                <p><strong>Amount:</strong> {expense.amount}</p>
-                <p><strong>Description:</strong> {expense.description}</p>
-                <p><strong>Category:</strong> {expense.category}</p>
-                <div className={classes.buttonContainer}>
-                  <Button variant="outline-primary" onClick={() => handleEdit(index)}>Edit</Button>{' '}
-                  <Button variant="outline-danger" onClick={() => handleDelete(index)}>Delete</Button>
-                </div>
-              </>
-            )}
-          </ListGroup.Item>
-        ))}
+            </ListGroup.Item>
+          ))}
       </ListGroup>
     </div>
   );

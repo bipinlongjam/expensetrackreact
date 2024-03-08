@@ -8,12 +8,14 @@
 const ADD_EXPENSE = 'ADD_EXPENSE';
 const EDIT_EXPENSE = 'EDIT_EXPENSE';
 const DELETE_EXPENSE = 'DELETE_EXPENSE';
+const TOGGLE_THEME = 'TOGGLE_THEME'
 
 // const initialState = {
 //   expenses: []
 // };
 const initialState = {
   expenses: JSON.parse(localStorage.getItem('expenses')) || [], // Initialize expenses from localStorage or as an empty array
+  darkTheme: false,
 };
 
 const expenseReducer = (state = initialState, action) => {
@@ -44,6 +46,11 @@ const expenseReducer = (state = initialState, action) => {
           ...state,
           expenses: deleteExpenses,
         }
+        case TOGGLE_THEME:
+          return {
+            ...state,
+            darkTheme: !state.darkTheme // Toggle darkTheme value
+          };
     default:
       return state;
   }
@@ -69,6 +76,9 @@ export const deleteExpense = (index) => {
     payload: index,
   };
 };
+export const toggleTheme = () => ({
+  type: TOGGLE_THEME
+});
 export default expenseReducer;
 
 
