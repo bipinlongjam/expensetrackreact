@@ -2,9 +2,61 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-top: 20px;
+}
+.activatePremiumButton{
+    margin-top: 10px;
 }
 .expenseshow{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
+.list{
+    width: 300px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    
+}
+.listItem {
+    margin-bottom: 10px; /* Adjust the value as needed */
+    padding-left: 10px;
+  }
+
+.lightBorder{
+    border: 1px solid #ccc;
+}
+.total{
+    margin-left: 100px;
+    padding-left: 20px;
+    width: 230px;
+    
+}
+.buttonContainer{
+    margin-top: 5px;
+    margin-left: 20px;
+}
+.totalAmount{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+.totalAmount p{
+    margin-left: 80px;
+    font-weight: bold;
+}
+.download{
+    margin-top: 20px;
+    margin-left: 70px;
+}
+.disabledButton {
+    background-color: #ccc; /* Light gray background */
+    color: #666; /* Dark gray text color */
+    border-color: #ccc; /* Light gray border color */
+    cursor: not-allowed; /* Change cursor to indicate button is disabled */
+    pointer-events: none; /* Disable pointer events */
+  }
+  
+  .disabledButton:hover {
+    background-color: #ccc; /* Light gray background on hover */
+    border-color: #ccc; /* Light gray border color on hover */
+  }

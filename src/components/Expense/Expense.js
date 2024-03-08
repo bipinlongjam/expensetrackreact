@@ -13,10 +13,12 @@ const [editIndex, setEditIndex] = useState(null);
   const amountRef = useRef(null);
   const descriptionRef = useRef(null);
   const categoryRef = useRef(null);
+
  
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expense.expenses);
   
+  const totalExpense = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,8 +53,19 @@ const [editIndex, setEditIndex] = useState(null);
     }
   };
 
+  const downloadCSV = () => {
+    const csvContent = "data:text/csv;charset=utf-8," +
+      expenses.map(expense => Object.values(expense).join(',')).join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "expenses.csv");
+    document.body.appendChild(link);
+    link.click();
+  };
   return (
-    <div className={`${classes.container} ${className}`}>
+    <div className={`${classes.container} ${className}`} >
+        <div className={classes.expenseadd}>
      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="amount">
           <Form.Label>Amount Spent</Form.Label>
@@ -63,7 +76,6 @@ const [editIndex, setEditIndex] = useState(null);
             ref={amountRef}
           />
         </Form.Group>
-
         <Form.Group controlId="description">
           <Form.Label>Description</Form.Label>
           <br></br>
@@ -86,18 +98,26 @@ const [editIndex, setEditIndex] = useState(null);
           </Form.Control>
         </Form.Group>
         <br></br>
-        <Button variant="primary" type="submit" size="sm" className={classes.submitButton}>
-            Submit
-        </Button>
+        <Button variant="primary" type="submit" size="sm" 
+         className={`${classes.submitButton} ${totalExpense > 10000 ? classes.disabledButton : ''}`}
+        disabled={totalExpense > 10000}>
+             Submit
+          </Button>
+        {totalExpense > 10000 && (
+            <Button variant="info" className={classes.activatePremiumButton}>
+              Activate Premium
+            </Button>
+          )}
         </Form>
-     
-
+        </div>
       <ListGroup  className={`${classes.expenselist}`}>
+        <div className={classes.expenseshow}>
+        <div className={classes.list}>
         <h2>Expenses List</h2>
-        {expenses.map((expense, index) => (
-            <ListGroup.Item key={index} className={classes.lightBorder}>
+        {expenses && expenses.map((expense, index) => (
+            <ListGroup.Item key={index} className={`${classes.lightBorder} ${classes.listItem}`}>
               <p><strong>Amount:</strong> {expense.amount}</p>
-              <strong>Description:</strong> {expense.description}
+              <p><strong>Description:</strong> {expense.description}</p> 
               <strong>Category:</strong> {expense.category}
               <div className={classes.buttonContainer}>
                 <Button variant="outline-primary" onClick={() => handleEdit(index)}>Edit</Button>{' '}
@@ -105,6 +125,18 @@ const [editIndex, setEditIndex] = useState(null);
                 </div>
             </ListGroup.Item>
           ))}
+            </div>
+            <div className={classes.total}>
+                <div className={classes.totalAmount}>
+                    <h2>Total Expense</h2>
+                    <p>Rs:{totalExpense.toFixed(2)}</p>
+                </div>
+                <div className={classes.download}>
+                    <Button variant="success" onClick={downloadCSV}>Download File</Button>
+                </div>
+            </div>
+          </div>
+          
       </ListGroup>
     </div>
   );

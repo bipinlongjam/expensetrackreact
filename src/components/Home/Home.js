@@ -4,8 +4,13 @@ import classes from './Home.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useExpense } from '../../context/auth-context'
 import { useDispatch, useSelector } from 'react-redux';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { logoutStart, logoutSuccess, logoutFailure } from '../../store/logoutAuth'
 import Expense from '../Expense/Expense';
+import { toggleTheme } from '../../store/expensestore';
+import {expenseReducer} from '../../store/expensestore'
 
 
 
@@ -13,7 +18,7 @@ const Home = () => {
    
     const dispatch = useDispatch();
     const {token} = useSelector(state => state.auth)
-   // const{logout, token, user} = useExpense()
+    const [showModal, setShowModal] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const fullnameRef = useRef();
     const profileurlRef = useRef();
@@ -26,18 +31,22 @@ const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
     const navigate =  useNavigate();
 
-    const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-    };
+   const darkTheme = useSelector(state => state.expense.darkTheme);
 
-    const handleCompleteNow=()=>{
-        setShowForm(!showForm)
-    }
+   const toggleThemeHandler = () => {
+    // setDarkMode(prevDarkMode => !prevDarkMode);
+    dispatch(toggleTheme());
+};
+
     
-    //Cancel update
-    const handleCancel = () => {
-        setShowForm(false); // Set showForm to false to hide the form
-    };
+    const handleCompleteNow = () => {
+        setShowModal(true);
+      };
+    
+      const handleClose = () => {
+        setShowModal(false);
+      };
+    
 
     const handleLogout = () => {
         dispatch(logoutStart()); // Dispatch logout start action
@@ -144,6 +153,7 @@ const Home = () => {
             fullnameRef.current.value = '';
             profileurlRef.current.value = '';
             setIsFormEdited(false); // Reset form editing state
+            setShowModal(false)
         }catch(error){
             console.log('Error submitting form', error.message);
         }
@@ -153,8 +163,8 @@ const Home = () => {
         setIsFormEdited(true); // Set form as edited when any input field changes
     };
   return (
-    <div>
-<div className={`${classes.container} ${darkMode ? classes.darkMode : ''}`}>
+<div>
+<div className={`${classes.container} ${darkTheme ? classes.darkBackground : ''}`}>
     <div className={classes.header}>
         <div >
         <h2 className={classes.heading}>
@@ -170,41 +180,52 @@ const Home = () => {
     <span><button className={classes.logbtn} onClick={handleLogout} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Logout</button></span>
     </div>
     <div>
-    <span><button onClick={toggleDarkMode} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>
-    {darkMode ? 'Light Mode' : 'Dark Mode'}
+    <span><button onClick={toggleThemeHandler} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>
+    {/* {darkMode ? 'Light Mode' : 'Dark Mode'} */}
+    DarkMode
      </button></span>
     </div>
+    {showModal && (
+        <Modal show={showModal} onHide={handleClose} 
+        style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '300px' }}>
+            <Modal.Title style={{fontFamily:'fantasy', marginBottom:'10px'}}>Contact Details</Modal.Title>
+          <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group controlId="fullname">
+                <Form.Label>Fullname:</Form.Label>
+                <br></br>
+                <Form.Control
+                  type="text"
+                  ref={fullnameRef}
+                  defaultValue={formData.fullname} 
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="profilePhotoUrl">
+                <Form.Label>Profile Photo URL:</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={profileurlRef} 
+                  defaultValue={formData.profilePhotoUrl} 
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+              <Button style={{width:'100px', marginBottom:'10px', marginLeft:'40px'}} variant="secondary" onClick={handleClose}>
+                Cancel
+              </Button>
+
+              <Button style={{width:'100px', marginLeft:'40px'}} variant="primary" type="submit">
+                Update
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      )}
+    </div>
+        <Expense />
     </div>
    
-        <Expense />
-    {/* <div className={classes.containerDetails}>
-        <div>
-        </div> */}
-        {/* <div className={classes['right-half']}> */}
-        {/* {
-        showForm && (
-            <div>
-            <h2 className={classes.formHeading}>Contact Details:</h2>
-            <form className={classes.form} onSubmit={handleSubmit}>
-            <div className={classes.details}>
-                <label>Fullname:</label>
-                <input type="text" ref={fullnameRef} defaultValue={formData.fullname} onChange={handleInputChange}/>
-                <label>Profile Photo URL:</label>
-                <input type="text" ref={profileurlRef} defaultValue={formData.profilePhotoUrl} onChange={handleInputChange}/>
-            </div>
-            <div className={classes.btn}>   
-            <button type="button" onClick={handleCancel}>Cancel</button>
-            <button type="submit">Update</button>
-            </div>
-        </form>
-        </div>
-        )
-      }
-        </div> */}
-     {/* </div> */}
-    
-    </div> 
-    </div>
+     </div>
   )
 }
 

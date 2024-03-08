@@ -14,7 +14,7 @@ const TOGGLE_THEME = 'TOGGLE_THEME'
 //   expenses: []
 // };
 const initialState = {
-  expenses: JSON.parse(localStorage.getItem('expenses')) || [], // Initialize expenses from localStorage or as an empty array
+  expenses:  [], // Initialize expenses from localStorage or as an empty array
   darkTheme: false,
 };
 
@@ -32,6 +32,8 @@ const expenseReducer = (state = initialState, action) => {
         const editedExpenses = state.expenses.map((expense, index) =>{
           if(index === action.payload.index){
             return action.payload.expense;
+          }else{
+            return expense;
           }
         })
         localStorage.setItem('expenses', JSON.stringify(editedExpenses));
@@ -46,7 +48,7 @@ const expenseReducer = (state = initialState, action) => {
           ...state,
           expenses: deleteExpenses,
         }
-        case TOGGLE_THEME:
+        case 'TOGGLE_THEME':
           return {
             ...state,
             darkTheme: !state.darkTheme // Toggle darkTheme value
@@ -81,35 +83,3 @@ export const toggleTheme = () => ({
 });
 export default expenseReducer;
 
-
-// Expenses Reducer
-
-// const expensesReducerDefaultState = [];
-
-// export default (state = expensesReducerDefaultState, action) => {
-//   switch (action.type) {
-//     case 'ADD_EXPENSE':
-//       return [
-//         ...state,
-//         action.expense
-//       ];
-//     case 'REMOVE_EXPENSE':
-//       return state.filter(({ id }) => id !== action.id);
-//     case 'EDIT_EXPENSE':
-//       return state.map((expense) => {
-//         if (expense.id === action.id) {
-//             return {
-//               ...expense,
-//               ...action.updates
-//             }
-//         } else {
-//             return expense;
-//         }
-//       });
-//       case 'SET_EXPENSE':
-//         return action.expenses;
-//     default:
-//       return state;
-      
-//   }
-// };
