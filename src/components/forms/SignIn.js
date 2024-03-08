@@ -3,18 +3,18 @@ import classes from './SignIn.module.css'
 import { useExpense } from '../../context/auth-context';
 import { useNavigate, Link } from 'react-router-dom';
 import {loginUser} from '../../store/authsignIn'
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch } from '../redux/redux-hooks';
 
 const SignIn = () => {
    // const {login, token} = useExpense()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch();
 
     const emailRef = useRef();
     const passwordRef = useRef();
     const navigate = useNavigate()
 
-  const userId = useSelector(state => state.auth.userId);
-  console.log("user id",userId)
+  //const userId = useSelector(state => state.auth.userId);
+  
   const handleSubmit = async(e) => {
     e.preventDefault();
     const email = emailRef.current.value;
@@ -29,7 +29,7 @@ const SignIn = () => {
 
   return (
     <div className={classes.container}>
-    <h2>Sign In</h2>
+    <h2 data-testid="signIn">Sign In</h2>
     <form onSubmit={handleSubmit}>
       <label>Email:</label>
       <input

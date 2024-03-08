@@ -6,8 +6,6 @@ import {addExpense, editExpense, deleteExpense} from '../../store/expensestore'
 import expenseReducer from '../../store/expensestore';
 
 
-
-
 const Expense = ({className}) => {
 const [editIndex, setEditIndex] = useState(null);
   const amountRef = useRef(null);

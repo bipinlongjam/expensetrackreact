@@ -22,7 +22,7 @@ const ForgotPass = () => {
             if(!response.ok){
                 throw new Error('Failed to send password reset email');
             }
-            console.log('PAssword reset email send successfully');
+            
         } catch(error){
             console.error('Error sending password reset email', error.message);
         }
