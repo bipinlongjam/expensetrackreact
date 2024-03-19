@@ -172,8 +172,8 @@ const Home = () => {
         </h2>
     </div>
     <div className={classes.profile}> 
-    <p>Your profile is Incomplete</p>
-    <span><button onClick={handleCompleteNow} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Complete now</button></span>
+    {/* <p>Your profile is Incomplete</p>
+    <span><button onClick={handleCompleteNow} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Complete now</button></span> */}
     <div className={classes.headbtn}>
     <span><button onClick={verifyEmail} style={{ fontSize: '14px', padding: '5px 10px' }}>{!isVerified ? 'Verify Email' : 'Verified' }</button></span>
     </div>

@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect, useReducer } from 'react';
+import React, { useState, useRef } from 'react';
 import { Form, Button, ListGroup } from 'react-bootstrap';
 import classes from './Expense.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import {addExpense, editExpense, deleteExpense} from '../../store/expensestore'
-import expenseReducer from '../../store/expensestore';
+
 
 
 const Expense = ({className}) => {
-const [editIndex, setEditIndex] = useState(null);
+
   const amountRef = useRef(null);
   const descriptionRef = useRef(null);
   const categoryRef = useRef(null);
@@ -16,7 +16,6 @@ const [editIndex, setEditIndex] = useState(null);
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expense.expenses);
   
-  //const totalExpense = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
   const totalExpense = useSelector(state => {
     const expenses = state.expense?.expenses; // Using optional chaining to handle undefined state.expense
     return expenses ? expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0) : 0; // Returning 0 if expenses is undefined
@@ -68,9 +67,9 @@ const [editIndex, setEditIndex] = useState(null);
     <div className={`${classes.container} ${className}`} >
         <div className={classes.expenseadd}>
      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="amount">
+        <Form.Group controlId="formAmount">
           <Form.Label>Amount Spent</Form.Label>
-          <br></br>
+          <br></br><br></br>
           <Form.Control
             type="number"
             placeholder="Enter amount"
@@ -79,6 +78,7 @@ const [editIndex, setEditIndex] = useState(null);
         </Form.Group>
         <Form.Group controlId="description">
           <Form.Label>Description</Form.Label>
+          <br></br>
           <br></br>
           <Form.Control
             type="text"
@@ -95,7 +95,6 @@ const [editIndex, setEditIndex] = useState(null);
             <option value="Transportation">Transportation</option>
             <option value="Housing">Housing</option>
             <option value="Entertainment">Entertainment</option>
-            {/* Add more categories as needed */}
           </Form.Control>
         </Form.Group>
         <br></br>
@@ -123,7 +122,7 @@ const [editIndex, setEditIndex] = useState(null);
               <div className={classes.buttonContainer}>
                 <Button variant="outline-primary" onClick={() => handleEdit(index)}>Edit</Button>{' '}
                  <Button variant="outline-danger" onClick={() => handleDelete(index)}>Delete</Button>
-                </div>
+              </div>
             </ListGroup.Item>
           ))}
             </div>
