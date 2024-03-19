@@ -36,6 +36,10 @@
     justify-content: space-evenly;
     
 }
+.name{
+    margin: 0 20px;
+    margin-top: 30px;
+}
 .logbtn{
     margin-top:15px;
     margin-left: 5px;

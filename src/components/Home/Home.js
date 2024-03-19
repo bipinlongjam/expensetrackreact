@@ -174,12 +174,16 @@ const Home = () => {
     <div className={classes.profile}> 
     {/* <p>Your profile is Incomplete</p>
     <span><button onClick={handleCompleteNow} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Complete now</button></span> */}
+   
     <div className={classes.headbtn}>
     <span><button onClick={verifyEmail} style={{ fontSize: '14px', padding: '5px 10px' }}>{!isVerified ? 'Verify Email' : 'Verified' }</button></span>
     </div>
-    <span><button className={classes.logbtn} onClick={handleLogout} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>Logout</button></span>
+   
     </div>
     <div>
+        <span className={classes.name}>{formData.fullname && formData.fullname.split(' ')[0]}
+        </span>
+    <button className={classes.logbtn} onClick={handleLogout} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px', marginRight:"10px"}}>Logout</button>
     <span><button onClick={toggleThemeHandler} style={{ fontSize: '14px', padding: '5px 10px', marginTop:'30px' }}>
     {/* {darkMode ? 'Light Mode' : 'Dark Mode'} */}
     DarkMode
